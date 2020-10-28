@@ -1,3 +1,4 @@
+<!-- use multipart: true for file upload  -->
 <%= form_for @image, :html => { multipart: true, :class => "form-horizontal image" } do |f| %>
 
     <% if @image.errors.any? %>

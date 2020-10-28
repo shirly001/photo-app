@@ -2,9 +2,10 @@ class RegistrationsController < Devise::RegistrationsController
   def create
     build_resource(sign_up_params)
     
+    #Transactions are protective blocks where SQL statements are only permanent if they can all succeed as one atomic action
     resource.class.transaction do
       resource.save
-      yield resource if block_given?
+      yield resource if block_given?#allow to reuse Devise's create function only if resource is passed
       if resource.persisted?
         @payment = Payment.new({ email: params["user"]["email"], 
           token: params[:payment]["token"], user_id: resource.id })
